@@ -1,28 +1,47 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-
-    <title>puredat-graphql-client demo</title>
-
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../puredat-graphql-client.html">
-
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
-  </head>
-  <body>
-    <div class="vertical-section-container centered">
-      <h3>Basic puredat-graphql-client demo</h3>
-      <demo-snippet>
-        <template>
-          <puredat-graphql-client></puredat-graphql-client>
-        </template>
-      </demo-snippet>
-    </div>
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+		
+		<title>puredat-graphql-client demo</title>
+		
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		
+		<link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+		<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+		<link rel="import" href="../../paper-button/paper-button.html">
+		<link rel="import" href="../puredat-graphql-client.html">
+		
+		<style is="custom-style" include="demo-pages-shared-styles">
+		</style>
+	</head>
+	<body>
+		<div class="vertical-section-container centered">
+			<h3>Basic puredat-graphql-client demo</h3>
+			<demo-snippet>
+				<template>
+					<puredat-graphql-client id="graphql" on-response="responseHandler"></puredat-graphql-client>
+					
+					<paper-button onclick="testClickHandler(event)">Test</paper-button>
+					
+					<script>
+						function testClickHandler(event) {
+							var graphql = document.getElementById("graphql");
+							
+							graphql.addEventListener("response", function(event) {
+								console.log(event.detail);
+							});
+							
+							graphql.endpoint = "https://localhost:8443/graphql";
+							graphql.accessToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQ3VzdG9tZXIiLCJzZWN1cml0eUNvbnRleHRQYXRocyI6bnVsbCwiYXV0aGVudGljYXRpb25NZXRob2RzIjoiYmFzaWMiLCJ1c2VybmFtZSI6ImN1c3RvbWVyQGdtYWlsLmNvbSJ9.UZSPkCAqwYnI37jq4GJNk9ZnJXdze7Dr12kBeDngPlA";
+							graphql.query = "query {domains {items {name}}}";
+							
+							graphql.generateRequest();
+						}
+					</script>
+				</template>
+			</demo-snippet>
+		</div>
+	</body>
 </html>

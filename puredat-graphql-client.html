@@ -1,34 +1,85 @@
 <link rel="import" href="../polymer/polymer.html">
-
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <!--
 `puredat-graphql-client`
 GraphQL client
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
-
 <dom-module id="puredat-graphql-client">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h2>Hello [[prop1]]</h2>
-  </template>
-
-  <script>
-    Polymer({
-
-      is: 'puredat-graphql-client',
-
-      properties: {
-        prop1: {
-          type: String,
-          value: 'puredat-graphql-client',
-        },
-      },
-
-    });
-  </script>
+	
+	<template>
+		<iron-ajax 
+				id="ajax"
+				method="POST"
+				url="[[endpoint]]"
+				on-response="ajaxResponseHandler"
+				handle-as="json">
+		</iron-ajax>
+	</template>
+	
+	<script>
+		Polymer({
+			
+			is : 'puredat-graphql-client',
+			
+			properties : {
+				
+				/** GraphQL endpoint */
+				endpoint: {
+					type: String,
+					value: "/graphql"
+				},
+				
+				/** Access token */
+				accessToken: {
+					type: String,
+					value: null
+				},
+				
+				/** Query */
+				query: {
+					type: String,
+					value: null
+				},
+				
+				/** Operation name */
+				operationName: {
+					type: String,
+					value: null
+				},
+				
+				/** Variables */
+				variables: {
+					type: Object,
+					value: function() {
+						return null;
+					}
+				}
+			},
+			
+			listeners: {
+				"response": "responseHandler" 
+			},
+			
+			responseHandler: function(event) {
+			},
+			
+			ajaxResponseHandler: function(event, request) {
+				this.fire("response", request.response);
+			},
+			
+			/** Generate request */
+			generateRequest: function() {
+				var request = {
+					query: this.query,
+					variables: {
+						authorization: this.accessToken
+					}
+				};
+				this.$.ajax.body = JSON.stringify(request);
+				this.$.ajax.generateRequest();
+			}
+		});
+	</script>
 </dom-module>
