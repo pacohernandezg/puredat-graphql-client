@@ -26,12 +26,12 @@
 					<paper-button onclick="testClickHandler(event)">Test</paper-button>
 					
 					<script>
+						graphql.addEventListener("response", function(event) {
+							console.log(event.detail);
+						});
+						
 						function testClickHandler(event) {
 							var graphql = document.getElementById("graphql");
-							
-							graphql.addEventListener("response", function(event) {
-								console.log(event.detail);
-							});
 							
 							graphql.endpoint = "https://localhost:8443/graphql";
 							graphql.accessToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQ3VzdG9tZXIiLCJzZWN1cml0eUNvbnRleHRQYXRocyI6bnVsbCwiYXV0aGVudGljYXRpb25NZXRob2RzIjoiYmFzaWMiLCJ1c2VybmFtZSI6ImN1c3RvbWVyQGdtYWlsLmNvbSJ9.UZSPkCAqwYnI37jq4GJNk9ZnJXdze7Dr12kBeDngPlA";
